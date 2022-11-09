@@ -8,12 +8,10 @@ import {
   Typography,
   Container,
 } from "@material-ui/core";
-// import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
-// import { GoogleLogin } from "react-google-login";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-
 import Icon from "./Icon.js";
 // import { signin, signup } from '../../actions/auth';
 // import { AUTH } from '../../constants/actionTypes';
@@ -29,12 +27,14 @@ const initialState = {
 };
 
 const Auth = () => {
+  const dispatch = useDispatch();
+  const classes = useStyles();
+  const navigate = useNavigate();
+
   const [form, setForm] = useState(initialState);
   const [isSignup, setIsSignup] = useState(false);
-  const dispatch = useDispatch();
-  // const history = useHistory();
-  const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -50,8 +50,14 @@ const Auth = () => {
     setShowPassword(false);
   };
   const googleSuccess = async (res) => {
-    const result = res?.profileObj;
+    const result = res?.credential;
     console.log(res);
+    try {
+      dispatch({ type: "AUTH", data: { result } });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
   const googleFailure = (error) => {
     console.log(error);
@@ -125,9 +131,14 @@ const Auth = () => {
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
 
-          <GoogleOAuthProvider clientId="773418732181-5ho0ducv4skusonrntgci7cbggk942bt.apps.googleusercontent.com">
-            <GoogleLogin onSuccess={googleSuccess} onError={googleFailure} />
-          </GoogleOAuthProvider>
+          <div className={classes.googleButton}>
+            <GoogleOAuthProvider
+              clientId="773418732181-5ho0ducv4skusonrntgci7cbggk942bt.apps.googleusercontent.com"
+              className={classes.googleButton}
+            >
+              <GoogleLogin onSuccess={googleSuccess} onError={googleFailure} />
+            </GoogleOAuthProvider>
+          </div>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
