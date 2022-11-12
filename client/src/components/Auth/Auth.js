@@ -13,7 +13,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Icon from "./Icon.js";
-// import { signin, signup } from '../../actions/auth';
+import { signin, signup } from "../../actions/auth";
 // import { AUTH } from '../../constants/actionTypes';
 import useStyles from "./styles";
 import Input from "./Input";
@@ -31,21 +31,22 @@ const Auth = () => {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  const [form, setForm] = useState(initialState);
+  const [formData, setFormData] = useState(initialState);
   const [isSignup, setIsSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log(formData);
     if (isSignup) {
-      // dispatch(signup(form, history));
+      dispatch(signup(formData));
     } else {
-      // dispatch(signin(form, history));
+      dispatch(signin(formData));
     }
+    navigate("/");
   };
   const switchMode = () => {
-    setForm(initialState);
+    setFormData(initialState);
     setIsSignup((prevIsSignup) => !prevIsSignup);
     setShowPassword(false);
   };
@@ -68,7 +69,7 @@ const Auth = () => {
     setShowPassword(!showPassword);
   };
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -91,6 +92,7 @@ const Auth = () => {
                   autoFocus
                   half
                 />
+
                 <Input
                   name="lastName"
                   label="Last Name"

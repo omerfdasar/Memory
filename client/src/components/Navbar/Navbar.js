@@ -47,6 +47,7 @@ const Navbar = () => {
               className={classes.purple}
               alt={user?.name}
               src={user?.picture}
+              referrerPolicy="no-referrer"
             >
               {user?.name?.charAt(0)}
             </Avatar>
