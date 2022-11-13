@@ -50,7 +50,7 @@ const Auth = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
     setShowPassword(false);
   };
-  const googleSuccess = async (res) => {
+  const googleSuccess = async (res) => { 
     const result = res?.credential;
     console.log(res);
     try {
