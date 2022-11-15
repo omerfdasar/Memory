@@ -17,6 +17,8 @@ import { signin, signup } from "../../actions/auth";
 // import { AUTH } from '../../constants/actionTypes';
 import useStyles from "./styles";
 import Input from "./Input";
+import decode from "jwt-decode";
+import jwt_decode from "jwt-decode";
 
 const initialState = {
   firstName: "",
@@ -50,11 +52,19 @@ const Auth = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
     setShowPassword(false);
   };
-  const googleSuccess = async (res) => { 
-    const result = res?.credential;
+
+  const googleSuccess = async (res) => {
+    const token = res?.credential;
+    const result1 = decode(token, { header: true });
+    const result = jwt_decode(res?.credential);
+    console.log("----")
+    console.log("----")
+    console.log("----§")
+    console.log(result);
+
     console.log(res);
     try {
-      dispatch({ type: "AUTH", data: { result } });
+      dispatch({ type: "AUTH", data: { result, token } });
       navigate("/");
     } catch (error) {
       console.log(error);
