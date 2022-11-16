@@ -24,7 +24,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <Navbar />
         <Routes>
           <Route path="/" element={<Navigate to={'/posts'}/>} />
