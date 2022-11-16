@@ -42,10 +42,11 @@ const Auth = () => {
     console.log(formData);
     if (isSignup) {
       dispatch(signup(formData));
+      navigate("/");
     } else {
       dispatch(signin(formData));
+      navigate("/");
     }
-    navigate("/");
   };
   const switchMode = () => {
     setFormData(initialState);
@@ -55,13 +56,8 @@ const Auth = () => {
 
   const googleSuccess = async (res) => {
     const token = res?.credential;
-    const result1 = decode(token, { header: true });
     const result = jwt_decode(res?.credential);
-    console.log("----")
-    console.log("----")
-    console.log("----§")
     console.log(result);
-
     console.log(res);
     try {
       dispatch({ type: "AUTH", data: { result, token } });
